@@ -1,0 +1,25 @@
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+from pyarabic.araby import tokenize, normalize_hamza, strip_tashkeel
+from nltk.stem.isri import ISRIStemmer
+from camel_tools.utils.normalize import normalize_alef_ar 
+
+text = "أنا أحب     البرمجة"
+tokens = word_tokenize(text)
+print("Tokens:", tokens)
+
+ps = ISRIStemmer()
+stemmed = [ps.stem(token) for token in tokens]
+print("Stemmed:", stemmed)
+
+text = "أنا أحب البرمجة"
+tokens = tokenize(text)
+print("Tokens:", tokens)
+
+normalized = [normalize_hamza(token) for token in tokens]
+print("Normalized:", normalized, "\n-------------------")
+normalized = [normalize_alef_ar(token) for token in tokens]
+print("Normalized:", normalized)
+
+no_tashkeel = [strip_tashkeel(token) for token in normalized]
+print("No Tashkeel:", no_tashkeel)

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Arabic Chatbot</h1>
+        <div id="chat-container"></div>
+        <input type="text" id="user-input" placeholder="أدخل رسالتك...">
+        <button onclick="sendMessage()">إرسال</button>
+    </div>
+    
+    <script>
+        function sendMessage() {
+            var userInput = $('#user-input').val();
+            $('#chat-container').append('<p><strong>أنت:</strong> ' + userInput + '</p>');
+            $('#user-input').val('');
+            $.ajax({
+                url: '/get_response',
+                type: 'POST',
+                data: {user_message: userInput},
+                success: function(data) {
+                    var botResponse = data.bot_response;
+                    $('#chat-container').append('<p><strong>الرد:</strong> ' + botResponse + '</p>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
