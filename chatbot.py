@@ -176,3 +176,4 @@ def get_response(inp): #start the chating process
             other_responses = [tg['responses'] for tg in data["intents"] if tg['tag'] == "اي شي اخر"][0]
             return random.choice(other_responses)
 #this is a test to see if this code will go to the main file in github repository (:D)
+#this is another test for branshes in github yooohooo youhouuuu
