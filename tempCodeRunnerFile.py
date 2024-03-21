@@ -1,2 +1,1 @@
 
-            if tg['tag'] == tag:

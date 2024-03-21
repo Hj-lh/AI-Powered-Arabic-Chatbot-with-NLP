@@ -1,10 +1,8 @@
 import tensorflow as tf
-
+import numpy as np
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
-import numpy
-import tflearn
 import random
 import json
 from nltk.stem.isri import ISRIStemmer
@@ -13,11 +11,10 @@ from camel_tools.utils.normalize import normalize_alef_ar
 from time import sleep
 import pickle
 import re
-
+from database_utils import create_connection, get_exam_date
 #--------------------------------DATA--------------------------------
 with open("C:/Users/PC/Dev/webDev/myarabicbot/intents.json", encoding="utf-8") as file:
     data = json.load(file)
-
 
 
 
@@ -82,28 +79,30 @@ for x, doc in enumerate(docs_x): #create the bag of words (matrics)
     output.append(output_row)
 
 
-training = numpy.array(training)
-output = numpy.array(output)
+training = np.array(training)
+output = np.array(output)
 
 with open("data.pickle", "wb") as f:
     pickle.dump((words, labels, training, output), f)
 
 
 #--------------------------------MODEL--------------------------------
-tf.compat.v1.reset_default_graph()
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(8, activation='relu', input_shape=(len(training[0]),)),
+    tf.keras.layers.Dense(8, activation='relu'),
+    tf.keras.layers.Dense(len(output[0]), activation='softmax')
+])
+# Compile the model
+model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 
-net = tflearn.input_data(shape=[None, len(training[0])]) #Input layer
-#Two hidden layer
-net = tflearn.fully_connected(net, 8)
-net = tflearn.fully_connected(net, 8)
-net = tflearn.fully_connected(net, len(output[0]), activation="softmax") #output layer (softmax is used to give probability)
-net = tflearn.regression(net)
+# Train the model
+model.fit(training, output, epochs=1200, batch_size=8, verbose=1)
 
-model = tflearn.DNN(net) #train the model
+# Save the model
+model.save("model.h5")
 
 
-model.fit(training, output, n_epoch=2100, batch_size=8, show_metric=True) #pass the training data
-model.save("model.tflearn") #save the model
+
 
 
 #--------------------------------CHATBOT--------------------------------
@@ -125,7 +124,7 @@ def bag_of_words(s, words): #process the user's input
             if w == se:
                 bag[i] = 1
                 
-    return numpy.array(bag)
+    return np.array(bag).reshape(-1, len(words))
 
 def extract_subject(inp):
     print(inp)
@@ -143,7 +142,7 @@ def extract_subject(inp):
 def get_response(inp): #start the chating process
         
         results = model.predict([bag_of_words(inp, words)])[0]
-        results_index = numpy.argmax(results)
+        results_index = np.argmax(results)
         tag = labels[results_index]
         confidence = results[results_index]
         print(f"Predicted Tag: {tag}, Confidence: {confidence}")
