@@ -140,7 +140,8 @@ def extract_subject(inp):
 
 
 def get_response(inp): #start the chating process
-        
+        conn = create_connection()
+
         results = model.predict([bag_of_words(inp, words)])[0]
         results_index = np.argmax(results)
         tag = labels[results_index]
@@ -156,15 +157,16 @@ def get_response(inp): #start the chating process
                         
                         if subject is not None:
                             print(subject)
-                            for sub in data["subjects"]:
-                                if sub["subject"] == subject:
-                                    responses = [res.replace("{date}", sub["date"]).replace("{subject}", sub["subject"]) for res in responses]
-                                    break
-                                else:
-                                    responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
+                            exam_dates = get_exam_date(conn, subject)
+                            if exam_date:
+                                exam_date = exam_dates[0][0]  # Assuming one date per subject for simplicity
+                                responses = [res.replace("{date}", exam_date).replace("{subject}", subject) for res in responses]
+                            else:
+                                responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
                         else:
-                            print("couldn't prosess the subject")
+                            print("couldn't process the subject")
                             responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
+                        break
                         
                     break
                 
