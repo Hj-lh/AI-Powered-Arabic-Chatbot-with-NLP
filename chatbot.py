@@ -13,7 +13,7 @@ import pickle
 import re
 from database_utils import create_connection, get_exam_date
 #--------------------------------DATA--------------------------------
-with open("C:/Users/PC/Dev/webDev/myarabicbot/intents.json", encoding="utf-8") as file:
+with open("D:\Dev1\webDev\myarabicbot\intents.json", encoding="utf-8") as file:
     data = json.load(file)
 
 
