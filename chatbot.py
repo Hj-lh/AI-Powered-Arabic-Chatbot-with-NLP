@@ -11,7 +11,6 @@ from camel_tools.utils.normalize import normalize_alef_ar
 from time import sleep
 import pickle
 import re
-from database_utils import create_connection, get_exam_date
 #--------------------------------DATA--------------------------------
 with open("D:\Dev1\webDev\myarabicbot\intents.json", encoding="utf-8") as file:
     data = json.load(file)
@@ -140,7 +139,6 @@ def extract_subject(inp):
 
 
 def get_response(inp): #start the chating process
-        conn = create_connection()
 
         results = model.predict([bag_of_words(inp, words)])[0]
         results_index = np.argmax(results)
@@ -157,12 +155,12 @@ def get_response(inp): #start the chating process
                         
                         if subject is not None:
                             print(subject)
-                            exam_dates = get_exam_date(conn, subject)
-                            if exam_date:
-                                exam_date = exam_dates[0][0]  # Assuming one date per subject for simplicity
-                                responses = [res.replace("{date}", exam_date).replace("{subject}", subject) for res in responses]
-                            else:
-                                responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
+                            for sub in data["subjects"]:
+                                if sub["subject"] == subject:
+                                    responses = [res.replace("{date}", sub["date"]).replace("{subject}", sub["subject"]) for res in responses]
+                                    break
+                                else:
+                                    responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
                         else:
                             print("couldn't process the subject")
                             responses = ["عذراً، لا توجد معلومات عن هذه المادة حالياً."]
