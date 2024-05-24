@@ -12,7 +12,7 @@ from time import sleep
 import pickle
 import re
 #--------------------------------DATA--------------------------------
-with open("D:\Dev1\webDev\myarabicbot\intents.json", encoding="utf-8") as file:
+with open(r"D:\Dev1\webDev\myarabicbot\intents.json", encoding="utf-8") as file:
     data = json.load(file)
 
 
@@ -95,7 +95,7 @@ model = tf.keras.Sequential([
 model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 
 # Train the model
-model.fit(training, output, epochs=1200, batch_size=8, verbose=1)
+model.fit(training, output, epochs=400, batch_size=8, verbose=1)
 
 # Save the model
 model.save("model.h5")
@@ -174,7 +174,4 @@ def get_response(inp): #start the chating process
         else:
             other_responses = [tg['responses'] for tg in data["intents"] if tg['tag'] == "اي شي اخر"][0]
             return random.choice(other_responses)
-#this is a test to see if this code will go to the main file in github repository (:D)
-#this is another test for branshes in github yooohooo youhouuuu
         
-# yoooohoooooo

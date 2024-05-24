@@ -1,0 +1,81 @@
+/* Overall page styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height */
+}
+
+/* Container for chat interface */
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Chat area where messages are displayed */
+#chat-container {
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* Styling user messages */
+#chat-container p {
+    margin: 5px;
+    padding: 8px;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+/* Differentiating the user's messages */
+#chat-container p strong:nth-child(1) {
+    color: #4a76a8;
+    background-color: #d2e3fc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Differentiating the bot's messages */
+#chat-container p strong:nth-child(2) {
+    color: #4a7b8c;
+    background-color: #cbe7e5;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Input field style */
+#user-input {
+    width: calc(100% - 90px); /* Input size minus button width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* Button style */
+button {
+    width: 80px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #5cb85c;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
