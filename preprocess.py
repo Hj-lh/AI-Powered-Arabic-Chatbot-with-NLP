@@ -6,7 +6,6 @@ from camel_tools.utils.normalize import normalize_alef_ar
 import numpy as np
 nltk.download('punkt')
 nltk.download('stopwords')
-
 def load_intents(filepath):
     with open(filepath, encoding="utf-8") as file:
         data = json.load(file)
@@ -16,7 +15,7 @@ def load_intents(filepath):
 def preprocess_input(s, words):
     stop_words = list(stopwords.words("Arabic"))
     stop_words = [normalize_alef_ar(w) for w in stop_words]
-    st = ISRIStemmer()
+    st = ISRIStemmer()#giving the root
 
     bag = [0 for _ in range(len(words))]
 
