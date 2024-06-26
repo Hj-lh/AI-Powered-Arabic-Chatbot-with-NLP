@@ -22,7 +22,8 @@ docs_y = []
 
 # Preprocess data
 stop_words = list(stopwords.words("Arabic"))
-stop_words = [normalize_alef_ar(w) for w in stop_words]
+custom_stop_words = ["متابعة","طيب","ماذا عن","و","عن","وش"]
+stop_words = [normalize_alef_ar(w) for w in stop_words if w not in custom_stop_words]
 st = ISRIStemmer()
 
 for intent in data["intents"]:
